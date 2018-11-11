@@ -1,15 +1,26 @@
 const express = require('express')
-const app = express()
 const bodyParser = require('body-parser')
+require('dotenv').config()
+const PORT = process.env.SERVER_PORT
 
-const users = require('./domains/users.js')
-
+const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
+// Placeholder until I put in a better logger like winston
+app.use(function (req, res, next) {
+  console.log(req.method, 'Request:', req.originalUrl)
+  next()
+})
 
-const PORT = 3000
+// Import Controllers
+const products = require('./controllers/products.js')
 
-app.get('/api/test', users.test)
 
+// Routes
+app.get('/api/products', products.getAllProducts)
+app.get('/api/products/:productID', products.getProductByID)
+
+
+// Run app
 app.listen(PORT)
-
+console.log('Big Breakfast Application running on Port ' + PORT)
 module.exports = app
