@@ -17,7 +17,8 @@ const products = require('./controllers/products.js')
 
 // Routes
 app.get('/api/products', products.getAllProducts)
-app.get('/api/products/:productID', products.getProductByID)
+app.get('/api/products/productID/:productID', products.getProductByID)
+app.get('/api/products/name/:string', products.searchProductByString)
 
 
 // Run app

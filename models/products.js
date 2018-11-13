@@ -13,13 +13,26 @@ exports.selectAll = async function(){
 	return result
 }
 
-exports.selectProductByID = async function(productID){
+exports.selectProductByID = async (productID) => {
 	let queryString = 'SELECT * FROM bigbreakfast.products WHERE productID = ?'
 	let values = [productID]
 
 	try {
 		var result = await pool.query(queryString, values)
-	} catch(err) {
+	} catch (err) {
+		throw new Error(err)
+	}
+
+	return result
+}
+
+exports.matchProductsByName = async (string) => {
+	let queryString = "SELECT * FROM bigbreakfast.products WHERE name LIKE CONCAT('%', ?, '%')"
+	let value = [string]
+
+	try {
+		var result = await pool.query(queryString, value)
+	} catch (err) {
 		throw new Error(err)
 	}
 
