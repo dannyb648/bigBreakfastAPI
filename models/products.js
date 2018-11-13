@@ -1,7 +1,7 @@
 const pool = require('../databaseConnection.js')
 
 // Returns all products in database
-exports.selectAll = async function(){
+exports.selectAll = async () => {
 	let queryString = 'SELECT * FROM bigbreakfast.products'
 
 	try {
@@ -13,7 +13,7 @@ exports.selectAll = async function(){
 	return result
 }
 
-exports.selectProductByID = async (productID) => {
+exports.selectByID = async (productID) => {
 	let queryString = 'SELECT * FROM bigbreakfast.products WHERE productID = ?'
 	let values = [productID]
 
@@ -26,7 +26,7 @@ exports.selectProductByID = async (productID) => {
 	return result
 }
 
-exports.matchProductsByName = async (string) => {
+exports.matchByName = async (string) => {
 	let queryString = "SELECT * FROM bigbreakfast.products WHERE name LIKE CONCAT('%', ?, '%')"
 	let value = [string]
 

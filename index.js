@@ -13,12 +13,15 @@ app.use(function (req, res, next) {
 
 // Import Controllers
 const products = require('./controllers/products.js')
+const users = require('./controllers/users.js')
 
 
 // Routes
 app.get('/api/products', products.getAllProducts)
 app.get('/api/products/productID/:productID', products.getProductByID)
 app.get('/api/products/name/:string', products.searchProductByString)
+
+app.post('/api/users', users.register)
 
 
 // Run app
