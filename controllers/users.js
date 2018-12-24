@@ -1,4 +1,5 @@
 const UserModel = require('../models/users.js')
+const Email = require('./email.js')
 
 exports.register = async (req, res) => {
 	if (!req.body.email ||
@@ -17,16 +18,39 @@ exports.register = async (req, res) => {
 		return res.status(401).send({'message': 'Please provide a valid email on the company domain.'})
 	}
 
-	if (!UserModel.checkIfEmailTaken(req.body.email)) {
+	if (await UserModel.checkIfEmailTaken(req.body.email)) {
 		return res.status(409).send({'message': 'That email has already been taken'})
 	}
 	
+	try {
+		await UserModel.storeRegistration(req.body.email, req.body.password)
+	} catch (err) {
+		return res.status(500).send({'message': 'Something went wrong'})
+	}
+
+	try {
+		UserModel.storeVerificationToken(req.body.email)
+	} catch (err) {
+		return res.status(500).send({'message': 'Something went wrong'})
+	}
+
+	// try {
+	//	
+	//} catch (err) {
+
+	//}
 
 
-	//PLACEHOLDER
-	res.status(200).send('OK')
-
-	//hash password
-
-	//insert value
+	res.status(200).send({'status':'Success'})
 }
+
+
+
+// exports.login = async (req, res) => {
+// 	if (!req.body.email ||
+// 		!req.body.password) {
+// 		return res.status(401).send({'message': 'Please provide a email and password in the request body.'})
+// 	} 
+
+
+// }
