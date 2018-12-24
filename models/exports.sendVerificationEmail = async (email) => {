@@ -1,3 +1,0 @@
-exports.sendVerificationEmail = async (email) => {
-	
-}
